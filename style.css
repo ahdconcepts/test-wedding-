@@ -24,16 +24,37 @@ body {
   position: relative;
 }
 
-.details {
-  background: #fdfd96;
+/* Welcome Section with Background Image */
+#welcome {
+  background-image: url('https://images2.imgbox.com/38/b6/d0hpIFWl_o.jpg'); /* Replace with your image URL */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white; /* Ensure text is visible on the background */
 }
+
+#welcome h1 {
+  font-size: 3rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
+}
+
+.details {
+  font-size: 1.5rem;
+  background: hwb(261 74% 5%);
+}
+
 .gallery {
+  font-size: 1.5rem;
   background: #ffdab9;
 }
+
 .rsvp {
+  font-size: 1.5rem;
   background: #bde0fe;
 }
+
 .map {
+  font-size: 1.5rem;
   background: #c3f1c3;
 }
 
@@ -41,11 +62,9 @@ body {
   position: absolute;
   top: 20%;
   left: 50%;
-  transform: translate(-50%, -100%);
+  transform: translate(-10%, -100%);
   opacity: 0;
-  transition:
-    transform 0.6s ease-out,
-    opacity 0.6s ease-out;
+  transition: transform 0.6s ease-out, opacity 1s ease-out;
 }
 
 .slide-in.visible {
@@ -55,5 +74,67 @@ body {
 
 .slide-in.exiting {
   transform: translate(-150%, 0);
+  opacity: 0;
+}
+
+
+
+
+
+
+/* Floating Button Styles */
+.floating-menu {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  z-index: 1000;
+}
+
+#menuButton {
+  background-color: rgba(97, 3, 248, 0.5); /* Purple with 50% opacity */
+  color: rgb(247, 243, 243);
+  border: none;
+  border-radius: 150px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+#menuButton:hover {
+  background-color: rgba(211, 118, 211, 0.8); /* Slightly darker purple */
+}
+
+/* Menu Options Styles */
+.menu-options {
+  position: absolute;
+  bottom: 60px; /* Position above the button */
+  right: 20px;
+  background-color: rgba(159, 122, 219, 0.678);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-options a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-options a:hover {
+  background-color: rgba(160, 14, 228, 0.842); /* Light purple hover effect */
+}
+
+/* Hidden Menu Options */
+.hidden {
+  visibility: hidden;
   opacity: 0;
 }
