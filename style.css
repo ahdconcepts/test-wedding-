@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+h1,
+h2 {
+  font-family: Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 2.5rem; /* Bigger font size for titles */
+}
+
+.hero {
+  background: url("https://images.squarespace-cdn.com/content/v1/5d2dc68a92c9340001963743/6e2a5651-cfa3-4013-8353-c5223ccebfdf/14Wedding+photo+ideas+of+bride+and+groomjpg.jpg?format=500w") no-repeat center
+    center/cover;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+}
+
+.details {
+  background: #fdfd96;
+}
+.gallery {
+  background: #ffdab9;
+}
+.rsvp {
+  background: #bde0fe;
+}
+.map {
+  background: #c3f1c3;
+}
+
+.slide-in {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  opacity: 0.5; /* Start with 50% opacity */
+  transition:
+    transform 0.6s ease-out,
+    opacity 0.6s ease-out;
+}
+
+.slide-in.visible {
+  transform: translate(-50%, 0);
+  opacity: 1; /* Fully visible when slided in */
+}
+
+.slide-in.exiting {
+  transform: translate(-150%, 0);
+  opacity: 0; /* Fade out during slide out */
+}
