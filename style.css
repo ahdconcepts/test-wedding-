@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .container {
@@ -22,20 +22,6 @@ body {
   align-items: center;
   scroll-snap-align: start;
   position: relative;
-}
-
-h1,
-h2 {
-  font-family: Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  font-size: 2.5rem; /* Bigger font size for titles */
-}
-
-.hero {
-  background: url("https://images.squarespace-cdn.com/content/v1/5d2dc68a92c9340001963743/6e2a5651-cfa3-4013-8353-c5223ccebfdf/14Wedding+photo+ideas+of+bride+and+groomjpg.jpg?format=500w") no-repeat center
-    center/cover;
-  color: white;
-  text-shadow: 2px 2px 5px black;
 }
 
 .details {
@@ -56,7 +42,7 @@ h2 {
   top: 20%;
   left: 50%;
   transform: translate(-50%, -100%);
-  opacity: 0.5; /* Start with 50% opacity */
+  opacity: 0;
   transition:
     transform 0.6s ease-out,
     opacity 0.6s ease-out;
@@ -64,10 +50,10 @@ h2 {
 
 .slide-in.visible {
   transform: translate(-50%, 0);
-  opacity: 1; /* Fully visible when slided in */
+  opacity: 1;
 }
 
 .slide-in.exiting {
   transform: translate(-150%, 0);
-  opacity: 0; /* Fade out during slide out */
+  opacity: 0;
 }
