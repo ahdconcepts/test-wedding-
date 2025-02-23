@@ -47,9 +47,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #welcome h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
   z-index: 1; /* Ensure text stays on top */
+  margin-top: 200px;
 }
 
 .details {
