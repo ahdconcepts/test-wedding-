@@ -14,4 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
   menuButton.addEventListener("click", () => {
     menuOptions.classList.toggle("hidden");
   });
+
+  // Slide-in Animation
+  const slideElements = document.querySelectorAll(".slide-in");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  slideElements.forEach((el) => observer.observe(el));
 });
