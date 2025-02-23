@@ -1,81 +1,145 @@
-/* General Styles */
-body, html {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
   font-family: Arial, sans-serif;
+  overflow: hidden; /* Prevent extra scrolling if not needed */
 }
 
 .container {
-  width: 100%;
-}
-
-/* Video Background Section */
-.hero {
-  position: relative;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
   height: 100vh;
+  scroll-behavior: smooth;
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+/* Welcome Section with Video Background */
+#welcome {
+  position: relative;
   overflow: hidden;
-}
-
-.hero video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero h1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: white;
-  font-size: 3em;
-  text-align: center;
 }
 
-/* Progress Bar */
-.progress-bar {
-  position: fixed;
+#welcome video {
+  position: absolute;
   top: 0;
   left: 0;
-  height: 5px;
-  background-color: #4caf50;
-  width: 0;
-  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the video covers the entire background */
+  z-index: -1; /* Place video behind content */
 }
 
-/* Sections */
-.section {
-  padding: 20px;
+#welcome h1 {
+  font-size: 3rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
+  z-index: 1; /* Ensure text stays on top */
 }
 
-.details, .gallery, .rsvp, .map {
-  padding: 20px;
-  text-align: center;
+.details {
+  font-size: 1.5rem;
+  background: hwb(261 74% 5%);
 }
 
-/* Floating Menu */
+.gallery {
+  font-size: 1.5rem;
+  background: #ffdab9;
+}
+
+.rsvp {
+  font-size: 1.5rem;
+  background: #bde0fe;
+}
+
+.map {
+  font-size: 1.5rem;
+  background: #c3f1c3;
+}
+
+.slide-in {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-10%, -100%);
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 1s ease-out;
+}
+
+.slide-in.visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.slide-in.exiting {
+  transform: translate(-150%, 0);
+  opacity: 0;
+}
+
+/* Floating Button Styles */
 .floating-menu {
   position: fixed;
   bottom: 20px;
+  right: 40px;
+  z-index: 1000;
+}
+
+#menuButton {
+  background-color: rgba(97, 3, 248, 0.5); /* Purple with 50% opacity */
+  color: rgb(247, 243, 243);
+  border: none;
+  border-radius: 150px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+#menuButton:hover {
+  background-color: rgba(211, 118, 211, 0.8); /* Slightly darker purple */
+}
+
+/* Menu Options Styles */
+.menu-options {
+  position: absolute;
+  bottom: 60px; /* Position above the button */
   right: 20px;
+  background-color: rgba(159, 122, 219, 0.678);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-#menuOptions {
-  display: none;
+.menu-options a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
+.menu-options a:hover {
+  background-color: rgba(160, 14, 228, 0.842); /* Light purple hover effect */
+}
+
+/* Hidden Menu Options */
 .hidden {
-  display: none;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2em;
-  }
-
-  .details, .gallery, .rsvp, .map {
-    padding: 10px;
-  }
+  visibility: hidden;
+  opacity: 0;
 }
