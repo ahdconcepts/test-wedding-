@@ -1,11 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Slide-in Effect
+  // Slide-in Effect for Sections
   const slideElements = document.querySelectorAll(".slide-in");
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("visible");
+          entry.target.classList.remove("exiting");
+        } else if (
+          entry.boundingClientRect.top < 0 ||
+          entry.boundingClientRect.bottom > window.innerHeight
+        ) {
+          entry.target.classList.remove("visible");
+          entry.target.classList.add("exiting");
         }
       });
     },
@@ -19,18 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuOptions = document.getElementById("menuOptions");
 
   menuButton.addEventListener("click", () => {
-    menuOptions.classList.toggle("visible");
+    menuOptions.classList.toggle("hidden");
   });
 
-  // Lazy Loading Images
-  const lazyImages = document.querySelectorAll(".lazy-load");
+  // Progress Bar
+  const progressBar = document.getElementById("progress-bar");
+  window.addEventListener("scroll", () => {
+    const scrollPosition = window.scrollY;
+    const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollPosition / documentHeight) * 100;
+    progressBar.style.width = `${progress}%`;
+  });
+
+  // Lazy Loading for Images
+  const lazyImages = document.querySelectorAll("img.lazy");
   const lazyObserver = new IntersectionObserver(
-    (entries) => {
+    (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const img = entry.target;
-          img.src = img.dataset.src;
-          lazyObserver.unobserve(img);
+          img.src = img.getAttribute("data-src");
+          img.classList.remove("lazy");
+          observer.unobserve(img);
         }
       });
     },
@@ -38,13 +55,4 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   lazyImages.forEach((img) => lazyObserver.observe(img));
-
-  // Progress Bar
-  const progressBar = document.getElementById("progressBar");
-  document.addEventListener("scroll", () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    progressBar.style.width = `${progress}%`;
-  });
 });
