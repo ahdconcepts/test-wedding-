@@ -1,39 +1,40 @@
-/* Base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* General Styles */
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-.container {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
-  scroll-behavior: smooth;
+/* Progress Bar Styles */
+#progress-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 9999;
 }
 
-.section {
+#progress-bar {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6a6a, #ff8c00);
+  transition: width 0.1s ease-in-out;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  scroll-snap-align: start;
-  position: relative;
-}
-
-/* Welcome Section */
-#welcome {
-  position: relative;
-  overflow: hidden;
+  text-align: center;
   color: white;
 }
 
-#welcome video {
+.hero video {
   position: absolute;
   top: 0;
   left: 0;
@@ -43,120 +44,42 @@ body {
   z-index: -1;
 }
 
-#welcome h1 {
-  font-size: 3rem;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  z-index: 1;
-}
-
-/* Section Styles */
-.details,
-.gallery,
-.rsvp,
-.map {
-  font-size: 1.5rem;
-}
-
-.details {
-  background: hwb(261 74% 5%);
-}
-
-.gallery {
-  background: #ffdab9;
-}
-
-.rsvp {
-  background: #bde0fe;
-}
-
-.map {
-  background: #c3f1c3;
-}
-
-/* Slide-in Effect */
-.slide-in {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-10%, -100%);
-  opacity: 0;
-  transition: transform 0.6s ease-out, opacity 1s ease-out;
-}
-
-.slide-in.visible {
-  transform: translate(-50%, 0);
-  opacity: 1;
-}
-
-/* Floating Button */
+/* Floating Menu */
 .floating-menu {
   position: fixed;
   bottom: 20px;
-  right: 40px;
+  right: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 }
 
 #menuButton {
-  background-color: rgba(97, 3, 248, 0.5);
+  padding: 10px 20px;
+  background-color: #ff8c00;
   color: white;
   border: none;
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-#menuButton:hover {
-  background-color: rgba(211, 118, 211, 0.8);
-}
-
 .menu-options {
-  position: absolute;
-  bottom: 60px;
-  right: 20px;
-  background-color: rgba(159, 122, 219, 0.8);
-  border-radius: 8px;
-  display: flex;
+  display: none;
   flex-direction: column;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 10px;
 }
 
 .menu-options a {
+  color: #000;
   text-decoration: none;
-  color: black;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 5px 0;
 }
 
 .menu-options a:hover {
-  background-color: rgba(160, 14, 228, 0.9);
+  text-decoration: underline;
 }
 
-.menu-options.visible {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Progress Bar */
-.progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 5px;
-  background-color: #4caf50;
-  width: 0%;
-  z-index: 2000;
-}
-
-/* Responsive */
-@media screen and (max-width: 768px) {
-  #welcome h1 {
-    font-size: 2rem;
-  }
-
-  .menu-options a {
-    font-size: 14px;
-  }
+.hidden {
+  display: none;
 }
