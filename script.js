@@ -6,8 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("visible");
-        } else {
-          entry.target.classList.remove("visible");
         }
       });
     },
@@ -24,12 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
     menuOptions.classList.toggle("hidden");
   });
 
-  // Progress Bar Logic
-  const progressBar = document.querySelector(".progress-bar");
+  // Scrolling Progress Bar
+  const progressBar = document.getElementById("progress-bar");
 
   window.addEventListener("scroll", () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollTop = window.scrollY;
+    const scrollHeight = document.body.scrollHeight - window.innerHeight;
     const scrollPercentage = (scrollTop / scrollHeight) * 100;
     progressBar.style.width = `${scrollPercentage}%`;
   });
