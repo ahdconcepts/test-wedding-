@@ -1,4 +1,4 @@
-/* General Styles */
+/* Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -28,10 +28,10 @@ body {
 /* Progress Bar */
 .progress-bar {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   height: 5px;
-  background-color: #4caf50;
+  background-color: purple;
   width: 0;
   z-index: 1000;
 }
@@ -49,13 +49,10 @@ body {
   color: #fff;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  font-size: 16px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .menu-options {
@@ -67,28 +64,26 @@ body {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .menu-options a {
   text-decoration: none;
-  padding: 10px 15px;
-  color: #333;
+  padding: 10px;
+  color: black;
 }
 
 .menu-options a:hover {
   background-color: #f0f0f0;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
+/* Slide-in Animation */
+.slide-in {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 1s ease, transform 1s ease;
+}
 
-  #menuButton {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
+.slide-in.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
