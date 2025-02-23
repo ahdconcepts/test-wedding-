@@ -1,40 +1,39 @@
-/* General Styles */
-body {
+/* Global Styles */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: Arial, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-/* Progress Bar Styles */
-#progress-bar-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: 9999;
+.container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
 }
 
-#progress-bar {
-  width: 0;
-  height: 100%;
-  background: linear-gradient(90deg, #ff6a6a, #ff8c00);
-  transition: width 0.1s ease-in-out;
-}
-
-/* Hero Section */
-.hero {
-  position: relative;
+.section {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+/* Welcome Section */
+#welcome {
+  position: relative;
+  overflow: hidden;
   color: white;
 }
 
-.hero video {
+#welcome video {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,42 +43,62 @@ body {
   z-index: -1;
 }
 
+#welcome h1 {
+  font-size: 3rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 5px;
+  background-color: #ff6347;
+  z-index: 1000;
+}
+
 /* Floating Menu */
 .floating-menu {
   position: fixed;
   bottom: 20px;
-  right: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  right: 40px;
   z-index: 1000;
 }
 
 #menuButton {
-  padding: 10px 20px;
-  background-color: #ff8c00;
-  color: white;
+  background-color: rgba(97, 3, 248, 0.5);
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 50%;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 }
 
-.menu-options {
-  display: none;
-  flex-direction: column;
-  padding: 10px;
+#menuOptions {
+  background-color: rgba(159, 122, 219, 0.678);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .menu-options a {
-  color: #000;
   text-decoration: none;
-  padding: 5px 0;
+  color: #000;
+  padding: 10px 20px;
+  display: block;
+  font-size: 16px;
 }
 
-.menu-options a:hover {
-  text-decoration: underline;
+/* Lazy Loading */
+img.lazy {
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
-.hidden {
-  display: none;
+img.lazy-loaded {
+  opacity: 1;
 }
