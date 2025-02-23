@@ -24,12 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
     menuOptions.classList.toggle("hidden");
   });
 
-  // Scroll Progress Bar
+  // Progress Bar Logic
   const progressBar = document.querySelector(".progress-bar");
+
   window.addEventListener("scroll", () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    progressBar.style.width = `${progress}%`;
+    const scrollPercentage = (scrollTop / scrollHeight) * 100;
+    progressBar.style.width = `${scrollPercentage}%`;
   });
 });
