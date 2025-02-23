@@ -9,6 +9,10 @@ body {
   overflow: hidden; /* Prevent extra scrolling if not needed */
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Great Vibes', cursive;
+}
+
 .container {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
