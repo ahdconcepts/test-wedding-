@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="progress-bar" id="progressBar"></div>
     <div class="container">
       <!-- Welcome Section (With Video Background) -->
       <section id="welcome" class="section hero">
@@ -36,7 +37,6 @@
       <!-- RSVP Section -->
       <section id="rsvp" class="section rsvp">
         <h2 class="slide-in">RSVP</h2>
-        <p>Please let us know if you can attend.</p>
         <form>
           <label for="name">Name:</label>
           <input type="text" id="name" name="name" required />
@@ -71,7 +71,7 @@
 
     <!-- Floating Menu Button -->
     <div class="floating-menu">
-      <button id="menuButton">OPTIONS</button>
+      <button id="menuButton">+</button>
       <div id="menuOptions" class="menu-options hidden">
         <a href="#details">Event Details</a>
         <a href="#gallery">Gallery</a>
