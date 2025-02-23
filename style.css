@@ -1,4 +1,4 @@
-/* General Reset */
+/* Global Styles */
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +7,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  overflow: hidden; /* Prevent extra scrolling if not needed */
+  overflow: hidden;
 }
 
 .container {
@@ -23,9 +23,44 @@ body {
   justify-content: center;
   align-items: center;
   scroll-snap-align: start;
+  position: relative;
 }
 
-/* Floating Button Styles (Unchanged) */
+/* Welcome Section with Video Background */
+#welcome {
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+
+#welcome video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+#welcome h1 {
+  font-size: 3rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Progress Bar */
+#progress-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  background-color: #800080; /* Bright purple */
+  width: 0;
+  z-index: 9999;
+  transition: width 0.2s ease;
+}
+
+/* Floating Menu Styles */
 .floating-menu {
   position: fixed;
   bottom: 20px;
@@ -34,48 +69,38 @@ body {
 }
 
 #menuButton {
-  background-color: rgba(97, 3, 248, 0.5); /* Purple with 50% opacity */
-  color: rgb(247, 243, 243);
+  background-color: rgba(97, 3, 248, 0.8);
+  color: white;
   border: none;
-  border-radius: 150px;
+  border-radius: 50px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-}
-
-#menuButton:hover {
-  background-color: rgba(211, 118, 211, 0.8); /* Slightly darker purple */
 }
 
 .menu-options {
   position: absolute;
-  bottom: 60px; /* Position above the button */
-  right: 20px;
-  background-color: rgba(159, 122, 219, 0.678);
+  bottom: 60px;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  opacity: 0.7;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.hidden {
   visibility: hidden;
-  opacity: 0;
 }
 
-/* Progress Bar */
-.progress-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 5px;
-  background-color: purple;
-  z-index: 1000;
-  transition: width 0.2s ease-out;
+.menu-options a {
+  text-decoration: none;
+  color: black;
+  padding: 10px 20px;
+}
+
+.menu-options a:hover {
+  background-color: #eee;
+}
+
+.menu-options.hidden {
+  visibility: hidden;
 }
