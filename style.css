@@ -63,11 +63,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #ffdab9;
   border: 1px solid #dda0dd;
 }
-.gallery img {
-  border: 1px solid #dda0dd; /* Light purple border */
-  border-radius: 5px; /* Optional: Add slight rounding for aesthetic purposes */
-  padding: 2px; /* Optional: Add spacing between the border and the image */
-}
+
 
 .rsvp {
   font-size: 1.5rem;
