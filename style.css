@@ -1,3 +1,4 @@
+/* Base styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +7,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  overflow: hidden; /* Prevent extra scrolling if not needed */
+  overflow: hidden;
 }
 
 .container {
@@ -25,7 +26,7 @@ body {
   position: relative;
 }
 
-/* Welcome Section with Video Background */
+/* Welcome Section */
 #welcome {
   position: relative;
   overflow: hidden;
@@ -38,36 +39,41 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure the video covers the entire background */
-  z-index: -1; /* Place video behind content */
+  object-fit: cover;
+  z-index: -1;
 }
 
 #welcome h1 {
   font-size: 3rem;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
-  z-index: 1; /* Ensure text stays on top */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+/* Section Styles */
+.details,
+.gallery,
+.rsvp,
+.map {
+  font-size: 1.5rem;
 }
 
 .details {
-  font-size: 1.5rem;
   background: hwb(261 74% 5%);
 }
 
 .gallery {
-  font-size: 1.5rem;
   background: #ffdab9;
 }
 
 .rsvp {
-  font-size: 1.5rem;
   background: #bde0fe;
 }
 
 .map {
-  font-size: 1.5rem;
   background: #c3f1c3;
 }
 
+/* Slide-in Effect */
 .slide-in {
   position: absolute;
   top: 20%;
@@ -82,12 +88,7 @@ body {
   opacity: 1;
 }
 
-.slide-in.exiting {
-  transform: translate(-150%, 0);
-  opacity: 0;
-}
-
-/* Floating Button Styles */
+/* Floating Button */
 .floating-menu {
   position: fixed;
   bottom: 20px;
@@ -96,50 +97,66 @@ body {
 }
 
 #menuButton {
-  background-color: rgba(97, 3, 248, 0.5); /* Purple with 50% opacity */
-  color: rgb(247, 243, 243);
+  background-color: rgba(97, 3, 248, 0.5);
+  color: white;
   border: none;
-  border-radius: 150px;
+  border-radius: 50px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
 }
 
 #menuButton:hover {
-  background-color: rgba(211, 118, 211, 0.8); /* Slightly darker purple */
+  background-color: rgba(211, 118, 211, 0.8);
 }
 
-/* Menu Options Styles */
 .menu-options {
   position: absolute;
-  bottom: 60px; /* Position above the button */
+  bottom: 60px;
   right: 20px;
-  background-color: rgba(159, 122, 219, 0.678);
+  background-color: rgba(159, 122, 219, 0.8);
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  opacity: 0.7;
+  visibility: hidden;
+  opacity: 0;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .menu-options a {
   text-decoration: none;
-  color: rgb(0, 0, 0);
+  color: black;
   padding: 10px 20px;
   font-size: 16px;
-  transition: background-color 0.3s ease;
 }
 
 .menu-options a:hover {
-  background-color: rgba(160, 14, 228, 0.842); /* Light purple hover effect */
+  background-color: rgba(160, 14, 228, 0.9);
 }
 
-/* Hidden Menu Options */
-.hidden {
-  visibility: hidden;
-  opacity: 0;
+.menu-options.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background-color: #4caf50;
+  width: 0%;
+  z-index: 2000;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  #welcome h1 {
+    font-size: 2rem;
+  }
+
+  .menu-options a {
+    font-size: 14px;
+  }
 }
