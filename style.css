@@ -26,7 +26,7 @@ body {
 
 /* Welcome Section with Background Image */
 #welcome {
-  background-image: url('https://github.com/ahdconcepts/test-wedding-/blob/main/landing_01.jpg?raw=true'); /* Replace with your image URL */
+  background-image: url('https://raw.githubusercontent.com/ahdconcepts/test-wedding-/refs/heads/main/landing_01.jpg'); /* Replace with your image URL */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
