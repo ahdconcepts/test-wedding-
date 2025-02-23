@@ -5,10 +5,9 @@
   box-sizing: border-box;
 }
 
-/* Body Styles */
 body {
   font-family: Arial, sans-serif;
-  overflow: hidden;
+  overflow: hidden; /* Prevent extra scrolling if not needed */
 }
 
 .container {
@@ -26,21 +25,20 @@ body {
   scroll-snap-align: start;
 }
 
-/* Floating Button Styles */
+/* Floating Button Styles (Unchanged) */
 .floating-menu {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 40px;
   z-index: 1000;
 }
 
 #menuButton {
-  background-color: rgba(97, 3, 248, 0.5);
-  color: white;
+  background-color: rgba(97, 3, 248, 0.5); /* Purple with 50% opacity */
+  color: rgb(247, 243, 243);
   border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  border-radius: 150px;
+  padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -48,7 +46,26 @@ body {
 }
 
 #menuButton:hover {
-  background-color: rgba(211, 118, 211, 0.8);
+  background-color: rgba(211, 118, 211, 0.8); /* Slightly darker purple */
+}
+
+.menu-options {
+  position: absolute;
+  bottom: 60px; /* Position above the button */
+  right: 20px;
+  background-color: rgba(159, 122, 219, 0.678);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
 }
 
 /* Progress Bar */
@@ -58,7 +75,7 @@ body {
   left: 0;
   width: 0;
   height: 5px;
-  background-color: violet;
+  background-color: purple;
   z-index: 1000;
   transition: width 0.2s ease-out;
 }
