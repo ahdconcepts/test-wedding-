@@ -1,152 +1,200 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Great Vibes', cursive;
+  }
+  
+  .container {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+    scroll-behavior: smooth;
+  }
+  
+  .section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+  
+  /* Welcome Section */
+  #welcome {
+    position: relative;
+    overflow: hidden;
+    color: white;
+  }
+  .amp {
+    font-size: 0.4em; /* 50% of the h1 size */
+    vertical-align: middle; /* Optional: aligns it nicely */
+    margin: 0 0.3em; /* Optional: adds spacing around the & */
+  }
+  /* Removed video styles and added slideshow */
+  #welcome h1 {
 
-body {
-  font-family: Arial, sans-serif;
-  overflow: hidden; /* Prevent extra scrolling if not needed */
-}
+    position: absolute;
+     top: 70%;
+     /*left: 20%;*/
+     transform: translateY(-50%);
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Great Vibes', cursive;
-}
+    font-size: 7rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    margin: 0;
+  }
+  
+  .details {
+    font-size: 1.5rem;
+    background: hwb(261 74% 5%);
+  }
+  
+  .gallery {
+    font-size: 1.5rem;
+    background: #ffdab9;
+    border: 1px solid #dda0dd;
+  }
+  
+  .rsvp {
+    font-size: 1.5rem;
+    background: #bde0fe;
+  }
+  
+  .map {
+    font-size: 1.5rem;
+    background: #c3f1c3;
+  }
+  
+  .slide-in {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-10%, -100%);
+    opacity: 0;
+    transition: transform 0.6s ease-out, opacity 1s ease-out;
+  }
+  
+  .slide-in.visible {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  
+  .slide-in.exiting {
+    transform: translate(-150%, 0);
+    opacity: 0;
+  }
+  
+  /* Floating Button Styles */
+  .floating-menu {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 1000;
+  }
+  
+  #menuButton {
+    
 
-.container {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
-  scroll-behavior: smooth;
-}
 
-.section {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  scroll-snap-align: start;
-  position: relative;
-}
+    background-color: rgba(207, 3, 248, 0.536);
+    color: rgb(247, 243, 243);
+    border: none;
+    border-radius: 150px;
+    padding: 20px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+  }
+  
+  #menuButton:hover {
+    background-color: rgba(211, 118, 211, 0.8);
+  }
+  
+  /* Menu Options Styles */
+  .menu-options {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    background-color: rgba(159, 122, 219, 0.678);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .menu-options a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-options a:hover {
+    background-color: rgba(160, 14, 228, 0.842);
+  }
+  
+  .hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+  
+  /* Slideshow Styles */
+  .slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .slideshow .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+  .slideshow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Just under the text but above images */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0));
+    pointer-events: none; /* Allow clicks to pass through */
+  }
+  
+  .slideshow .slide.active {
+    opacity: 1;
+  }
+  
 
-/* Welcome Section with Video Background */
-#welcome {
-  position: relative;
-  overflow: hidden;
-  color: white;
-}
-
-#welcome video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensure the video covers the entire background */
-  z-index: -1; /* Place video behind content */
-}
-
-#welcome h1 {
-  font-size: 4rem;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
-  z-index: 1; /* Ensure text stays on top */
-  margin-top: 200px;
-}
-
-.details {
-  font-size: 1.5rem;
-  background: hwb(261 74% 5%);
-}
-
-.gallery {
-  font-size: 1.5rem;
-  background: #ffdab9;
-  border: 1px solid #dda0dd;
-}
+  /* MEDIA QUERRY*/
 
 
-.rsvp {
-  font-size: 1.5rem;
-  background: #bde0fe;
-}
-
-.map {
-  font-size: 1.5rem;
-  background: #c3f1c3;
-}
-
-.slide-in {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-10%, -100%);
-  opacity: 0;
-  transition: transform 0.6s ease-out, opacity 1s ease-out;
-}
-
-.slide-in.visible {
-  transform: translate(-50%, 0);
-  opacity: 1;
-}
-
-.slide-in.exiting {
-  transform: translate(-150%, 0);
-  opacity: 0;
-}
-
-/* Floating Button Styles */
-.floating-menu {
-  position: fixed;
-  bottom: 20px;
-  right: 40px;
-  z-index: 1000;
-}
-
-#menuButton {
-  background-color: rgba(97, 3, 248, 0.5); /* Purple with 50% opacity */
-  color: rgb(247, 243, 243);
-  border: none;
-  border-radius: 150px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-}
-
-#menuButton:hover {
-  background-color: rgba(211, 118, 211, 0.8); /* Slightly darker purple */
-}
-
-/* Menu Options Styles */
-.menu-options {
-  position: absolute;
-  bottom: 60px; /* Position above the button */
-  right: 20px;
-  background-color: rgba(159, 122, 219, 0.678);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  opacity: 0.7;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.menu-options a {
-  text-decoration: none;
-  color: rgb(0, 0, 0);
-  padding: 10px 20px;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.menu-options a:hover {
-  background-color: rgba(160, 14, 228, 0.842); /* Light purple hover effect */
-}
-
-/* Hidden Menu Options */
-.hidden {
-  visibility: hidden;
-  opacity: 0;
-}
+  @media (max-width: 300px) {
+    #welcome h1 {
+      font-size: 2.5rem;
+      top: 85%;
+    }
+  }
