@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wedding Event</title>
@@ -10,13 +9,16 @@
   </head>
   <body>
     <div class="container">
-      <!-- Welcome Section (With Video Background) -->
+      <!-- Welcome Section with Image Slideshow -->
       <section id="welcome" class="section hero">
-        <video autoplay muted loop>
-          <source src="Landing_Video_background.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <h1>Alvin and Kimmy <br> Wedding</h1>
+        <div class="slideshow">
+          <img src="image1.jpg" class="slide active" />
+          <img src="image2.jpg" class="slide" />
+          <img src="image3.jpg" class="slide" />
+          <img src="image4.jpg" class="slide" />
+        </div>
+        
+        <h1>Alvin <span class="amp">and</span> Kim</h1>
       </section>
 
       <!-- Event Details Section -->
@@ -32,7 +34,6 @@
         <h2 class="slide-in">Gallery</h2>
         <img src="https://via.placeholder.com/100" alt="No image yet" style="border: 1px solid #dda0dd;" />
         <img src="https://via.placeholder.com/100" alt="No image yet" />
-        
       </section>
 
       <!-- RSVP Section -->
@@ -75,6 +76,7 @@
     <div class="floating-menu">
       <button id="menuButton">OPTIONS</button>
       <div id="menuOptions" class="menu-options hidden">
+        <a href="#welcome">Back to Top</a>
         <a href="#details">Event Details</a>
         <a href="#gallery">Gallery</a>
         <a href="#rsvp">RSVP</a>
