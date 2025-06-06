@@ -1,5 +1,5 @@
 
-// Slide-in, slideshow, and menu logic inside DOMContentLoaded
+// Slide-in and UI logic
 document.addEventListener("DOMContentLoaded", () => {
   const slideElements = document.querySelectorAll(".slide-in");
   const observer = new IntersectionObserver((entries) => {
@@ -41,9 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 3000);
 
   showStage("stage1");
+
+  // ✅ Add event listener instead of inline onclick
+  const checkBtn = document.getElementById("checkNameBtn");
+  if (checkBtn) {
+    checkBtn.addEventListener("click", checkGuestName);
+  }
 });
 
-// Global RSVP logic
+// RSVP variables and functions
 const guestFullNameInput = document.getElementById("guestFullName");
 const displayFullName = document.getElementById("displayFullName");
 const errorNotFound = document.getElementById("errorNotFound");
