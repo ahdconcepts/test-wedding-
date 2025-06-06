@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   slideElements.forEach((el) => observer.observe(el));
 
-  // Floating Button Menu Toggle
+  // Floating Menu Toggle
   const menuButton = document.getElementById("menuButton");
   const menuOptions = document.getElementById("menuOptions");
-
   let autoCloseTimer;
+
   menuButton.addEventListener("click", () => {
     const isOpening = menuOptions.classList.contains("hidden");
     menuOptions.classList.toggle("hidden");
@@ -41,13 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Slideshow Logic
   const slides = document.querySelectorAll(".slideshow .slide");
   let currentSlide = 0;
+
   setInterval(() => {
     slides[currentSlide].classList.remove("active");
     currentSlide = (currentSlide + 1) % slides.length;
     slides[currentSlide].classList.add("active");
   }, 3000);
 
-  // RSVP Logic
+  // -----------------------------
+  // ✅ RSVP Logic Starts Here
+  // -----------------------------
   const guestFullNameInput = document.getElementById("guestFullName");
   const displayFullName = document.getElementById("displayFullName");
   const errorNotFound = document.getElementById("errorNotFound");
@@ -61,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.checkGuestName = () => {
     const fullName = guestFullNameInput.value.trim();
-
     if (!fullName) {
       errorNotFound.textContent = "Please enter a name.";
       errorNotFound.classList.remove("hidden");
@@ -120,9 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.submitRSVP = (response) => {
     fetch(scriptURL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: selectedGuest,
         response: response
@@ -148,6 +148,11 @@ document.addEventListener("DOMContentLoaded", () => {
     startCountdownAndReload();
   };
 
+  function showStage(id) {
+    document.querySelectorAll(".rsvp-stage").forEach(stage => stage.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+  }
+
   function startCountdownAndReload() {
     const redirectMsg = document.querySelector("#stage4 p:last-of-type");
     let countdown = 5;
@@ -167,11 +172,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
   }
 
-  function showStage(id) {
-    document.querySelectorAll(".rsvp-stage").forEach(stage => stage.classList.add("hidden"));
-    document.getElementById(id).classList.remove("hidden");
-  }
-
-  // Show stage 1 on load
   showStage("stage1");
 });
