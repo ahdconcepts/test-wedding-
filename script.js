@@ -1,6 +1,6 @@
-// UI LOGIC
+
+// Slide-in, slideshow, and menu logic inside DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
-  // Slide-in Effects
   const slideElements = document.querySelectorAll(".slide-in");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { threshold: 0.9 });
   slideElements.forEach((el) => observer.observe(el));
 
-  // Menu Button
   const menuButton = document.getElementById("menuButton");
   const menuOptions = document.getElementById("menuOptions");
   let autoCloseTimer;
@@ -33,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Slideshow
   const slides = document.querySelectorAll(".slideshow .slide");
   let currentSlide = 0;
   setInterval(() => {
@@ -42,11 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
     slides[currentSlide].classList.add("active");
   }, 3000);
 
-  // Initial RSVP stage
   showStage("stage1");
 });
 
-// RSVP LOGIC — Move these OUTSIDE of DOMContentLoaded so `onclick` works
+// Global RSVP logic
 const guestFullNameInput = document.getElementById("guestFullName");
 const displayFullName = document.getElementById("displayFullName");
 const errorNotFound = document.getElementById("errorNotFound");
