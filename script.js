@@ -1,53 +1,125 @@
-function doGet(e) {
-  const nameToCheck = (e.parameter.name || "").trim().toLowerCase();
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
-  const data = sheet.getRange("A2:B" + sheet.getLastRow()).getValues();
 
-  for (let i = 0; i < data.length; i++) {
-    const fullName = (data[i][0] || "").toLowerCase().trim();
-    if (fullName === nameToCheck) {
-      return ContentService.createTextOutput(JSON.stringify({
-        status: "found",
-        response: data[i][1] || ""
-      })).setMimeType(ContentService.MimeType.JSON);
+document.addEventListener("DOMContentLoaded", () => {
+  const guestFullNameInput = document.getElementById("guestFullName");
+  const displayFullName = document.getElementById("displayFullName");
+  const errorNotFound = document.getElementById("errorNotFound");
+  const alreadyRespondedMessage = document.getElementById("alreadyRespondedMessage");
+  const confirmName = document.getElementById("confirmName");
+
+  let selectedGuest = "";
+  let existingResponse = "";
+
+  const scriptURL = "https://script.google.com/macros/s/AKfycbztNef5f7wTMSf0qDxycVWJBOo9PIHqBcfztAwET9QaAaF3vHAqd2yYeAKpB1Ore1dIRw/exec";
+
+  document.getElementById("checkNameBtn").addEventListener("click", checkGuestName);
+
+  function checkGuestName() {
+    const fullName = guestFullNameInput.value.trim();
+
+    if (!fullName) {
+      errorNotFound.textContent = "Please enter a name.";
+      errorNotFound.classList.remove("hidden");
+      return;
     }
+
+    fetch(`${scriptURL}?name=${encodeURIComponent(fullName)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "found") {
+          selectedGuest = fullName;
+          existingResponse = data.response;
+
+          displayFullName.textContent = fullName;
+          displayFullName.style.cursor = "pointer";
+          displayFullName.classList.remove("hidden");
+          displayFullName.onclick = () => {
+            if (existingResponse) {
+              alreadyRespondedMessage.textContent = `You responded '${existingResponse}'. Do you want to change it?`;
+              alreadyRespondedMessage.classList.remove("hidden");
+            } else {
+              alreadyRespondedMessage.classList.add("hidden");
+            }
+            showStage("stage2");
+          };
+
+          errorNotFound.classList.add("hidden");
+        } else {
+          errorNotFound.textContent = "Sorry! The name does not exist on the guest list.";
+          errorNotFound.classList.remove("hidden");
+          displayFullName.classList.add("hidden");
+        }
+      })
+      .catch(err => {
+        console.error("Fetch failed:", err);
+        errorNotFound.textContent = "An error occurred. Please try again.";
+        errorNotFound.classList.remove("hidden");
+      });
   }
 
-  return ContentService.createTextOutput(JSON.stringify({
-    status: "not_found"
-  })).setMimeType(ContentService.MimeType.JSON);
-}
+  window.handleStage2Response = (change) => {
+    if (change) {
+      const firstName = selectedGuest.split(" ")[0];
+      confirmName.textContent = `Hello ${firstName},`;
+      showStage("stage3");
+    } else {
+      showStage("stage4");
+      startCountdownAndReload();
+    }
+  };
 
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
-    const data = JSON.parse(e.postData.contents);
+  window.submitRSVP = (response) => {
+    fetch(scriptURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: selectedGuest,
+        response: response
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "updated") {
+          alert(`RSVP submitted: ${selectedGuest} - ${response}`);
+          goToThankYou();
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      })
+      .catch(err => {
+        console.error("Error submitting RSVP:", err);
+        alert("Failed to send RSVP.");
+      });
+  };
 
-    const nameToCheck = (data.name || "").trim().toLowerCase();
-    const response = data.response || "";
+  window.goToThankYou = () => {
+    showStage("stage4");
+    startCountdownAndReload();
+  };
 
-    const names = sheet.getRange("A2:A" + sheet.getLastRow()).getValues();
+  function startCountdownAndReload() {
+    const redirectMsg = document.querySelector("#stage4 p:last-of-type");
+    let countdown = 5;
+    redirectMsg.textContent = `Redirecting in ${countdown}...`;
+    redirectMsg.style.opacity = 1;
 
-    for (let i = 0; i < names.length; i++) {
-      const fullName = (names[i][0] || "").toLowerCase().trim();
-      if (fullName === nameToCheck) {
-        sheet.getRange(i + 2, 2).setValue(response); // Row offset
-        return ContentService.createTextOutput(JSON.stringify({
-          status: "updated",
-          name: fullName,
-          response: response
-        })).setMimeType(ContentService.MimeType.JSON);
+    const timer = setInterval(() => {
+      countdown--;
+      redirectMsg.textContent = `Redirecting in ${countdown}...`;
+      redirectMsg.style.opacity = 1 - (5 - countdown) * 0.15;
+
+      if (countdown === 0) {
+        clearInterval(timer);
+        location.reload();
       }
-    }
-
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "not_found"
-    })).setMimeType(ContentService.MimeType.JSON);
-
-  } catch (error) {
-    return ContentService.createTextOutput(JSON.stringify({
-      status: "error",
-      message: error.message
-    })).setMimeType(ContentService.MimeType.JSON);
+    }, 1000);
   }
-}
+
+  function showStage(id) {
+    document.querySelectorAll(".rsvp-stage").forEach(stage => stage.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+  }
+
+  showStage("stage1");
+});
