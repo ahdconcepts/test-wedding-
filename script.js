@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedGuest = "";
   let existingResponse = "";
 
-  const scriptURL = "https://script.google.com/macros/s/AKfycbx91MM2yOJpF8CuT4Ua4WqoZYYkCosevxjTvwbHZ26LoTlzUwzZuG1OjR3JGKIHQ6gi/exec"; // ✅ replace with your real URL
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyc1YScyYihJ2yFRhijONYU9IYx_c1xDMU00ERSl-4oSJFs3F4d3V3dFK7P5RyWDbYN/exec"; // ✅ replace with your real URL
 
   window.checkGuestName = () => {
     const fullName = guestFullNameInput.value.trim();
