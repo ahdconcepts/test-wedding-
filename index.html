@@ -38,24 +38,48 @@
 
       <!-- RSVP Section -->
       <section id="rsvp" class="section rsvp">
-        <h2 class="slide-in">RSVP</h2>
-        <p>Please let us know if you can attend.</p>
-        <form>
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required />
-          <br />
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required />
-          <br />
-          <label for="attendance">Will you attend?</label>
-          <select id="attendance" name="attendance">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </section>
+  <h2 class="slide-in">RSVP</h2>
+  
+  <div class="rsvp-box">
+    <!-- Stage 1: Name Input -->
+    <div class="rsvp-stage" id="stage1">
+      <p>Please let us know if you can attend.</p>
+
+      <input type="text" id="guestFullName" placeholder="First Name Last Name" />
+      <p id="errorNotFound" class="error-message hidden">Sorry! That name was not on the list.</p>
+      <button onclick="checkGuestName()">Next</button>
+    </div>
+
+    <!-- Stage 2: Already Responded? -->
+    <div class="rsvp-stage hidden" id="stage2">
+      <p id="displayFullName" class="rsvp-name">Full Name</p>
+      <p id="alreadyRespondedMessage" class="hidden"></p>
+      <div class="rsvp-buttons">
+        <button onclick="handleStage2Response(true)">YES</button>
+        <button onclick="handleStage2Response(false)">NO</button>
+      </div>
+    </div>
+
+    <!-- Stage 3: Confirm RSVP -->
+    <div class="rsvp-stage hidden" id="stage3">
+      <p id="confirmName">Hello FirstName,</p>
+      <p>Can you attend our wedding?</p>
+      <div class="rsvp-buttons">
+        <button onclick="submitRSVP('Yes')">YES</button>
+        <button onclick="submitRSVP('No')">NO</button>
+      </div>
+      <button onclick="goToThankYou()">OK</button>
+    </div>
+
+    <!-- Stage 4: Thank You -->
+    <div class="rsvp-stage hidden" id="stage4">
+      <h3>THANK YOU</h3><br>
+      <p>Your response has been submitted!</p><br>
+      <p style="color: rgb(170, 6, 159);">Redirecting in 3...</p>
+    </div>
+  </div>
+</section>
+
 
       <!-- Location Section -->
       <section id="map" class="section map">
