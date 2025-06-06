@@ -66,48 +66,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const scriptURL = "https://script.google.com/macros/s/AKfycbyc1YScyYihJ2yFRhijONYU9IYx_c1xDMU00ERSl-4oSJFs3F4d3V3dFK7P5RyWDbYN/exec"; // ✅ replace with your real URL
 
   window.checkGuestName = () => {
-    const fullName = guestFullNameInput.value.trim();
+  const fullName = guestFullNameInput.value.trim();
 
-    if (!fullName) {
-      errorNotFound.textContent = "Please enter a name.";
-      errorNotFound.classList.remove("hidden");
-      return;
-    }
+  if (!fullName) {
+    errorNotFound.textContent = "Please enter a name.";
+    errorNotFound.classList.remove("hidden");
+    return;
+  }
 
-    fetch(`${scriptURL}?name=${encodeURIComponent(fullName)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "found") {
-          selectedGuest = fullName;
-          existingResponse = data.response;
+  fetch(`${scriptURL}?name=${encodeURIComponent(fullName)}`)
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      if (data.status === "found") {
+        selectedGuest = fullName;
+        existingResponse = data.response;
 
-          // Show matched name to click before continuing
-          displayFullName.textContent = fullName;
-          displayFullName.style.cursor = "pointer";
-          displayFullName.classList.remove("hidden");
+        // Show matched name to click before continuing
+        displayFullName.textContent = fullName;
+        displayFullName.style.cursor = "pointer";
+        displayFullName.classList.remove("hidden");
 
-          displayFullName.onclick = () => {
-            if (existingResponse) {
-              alreadyRespondedMessage.textContent = `You responded '${existingResponse}'. Do you want to change it?`;
-              alreadyRespondedMessage.classList.remove("hidden");
-            } else {
-              alreadyRespondedMessage.classList.add("hidden");
-            }
-            showStage("stage2");
-          };
+        displayFullName.onclick = () => {
+          if (existingResponse) {
+            alreadyRespondedMessage.textContent = `You responded '${existingResponse}'. Do you want to change it?`;
+            alreadyRespondedMessage.classList.remove("hidden");
+          } else {
+            alreadyRespondedMessage.classList.add("hidden");
+          }
+          showStage("stage2");
+        };
 
-          errorNotFound.classList.add("hidden");
-        } else {
-          errorNotFound.textContent = "Sorry! The name does not exist on the guest list.";
-          errorNotFound.classList.remove("hidden");
-        }
-      })
-      .catch(err => {
-        console.error("Error checking name:", err);
-        errorNotFound.textContent = "An error occurred. Please try again.";
+        errorNotFound.classList.add("hidden");
+      } else {
+        errorNotFound.textContent = "Sorry! The name does not exist on the guest list.";
         errorNotFound.classList.remove("hidden");
-      });
-  };
+        displayFullName.classList.add("hidden");
+      }
+    })
+    .catch(err => {
+      console.error("Fetch failed:", err); // ✅ log actual error
+      errorNotFound.textContent = "An error occurred. Please try again.";
+      errorNotFound.classList.remove("hidden");
+    });
+};
+
 
   window.handleStage2Response = (change) => {
     if (change) {
