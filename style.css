@@ -1,0 +1,299 @@
+/*---------------------------------
+  RESET & BASE STYLES
+-----------------------------------*/
+
+/* Remove default browser margin/padding and enable border-box for predictable sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set main font and prevent scrollbars by default (can re-enable if needed) */
+body {
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/*---------------------------------
+  HEADING FONTS
+-----------------------------------*/
+
+/* Use cursive font for decorative headings */
+h1,  h4, h5, h6 {
+  font-family: 'Dancing Script', cursive;
+   font-weight: 200; /* Thin */
+}
+/* Use classic sans-serif for h3 for clarity */
+h3 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+h2 {
+  font-family: 'Alumni Sans SC', sans-serif;
+  font-weight: 100; /* Thin */
+  font-size: 3rem;
+  
+}
+/*---------------------------------
+  SCROLLING & LAYOUT
+-----------------------------------*/
+
+/* Main scroll container for vertical snapping */
+.container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+/* Each full-page section: vertically and horizontally centered, snapping in view */
+.section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+/*---------------------------------
+  WELCOME SECTION
+-----------------------------------*/
+
+/* Make sure the welcome area uses relative positioning for layering text/slideshow */
+#welcome {
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+.wedding-header {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+}
+
+.wedding-header h2,
+.wedding-header h1 {
+  margin: 0;
+  padding: 0;
+  
+}
+/* Smaller font for & symbol in headings */
+.amp {
+  font-size: 0.4em;
+  vertical-align: middle;
+  margin: 0 0.3em;
+}
+
+/* Large wedding title centered over slideshow */
+#welcome h1 {
+  /*position: absolute;*/
+  top: 90%;
+  left: 50%; 
+  transform: translateY(-50%,50%);
+  font-size: 6rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  margin: 0;
+}
+
+/*---------------------------------
+  SECTION BACKGROUNDS
+-----------------------------------*/
+
+/* Each section uses a soft color and increased font for legibility */
+.details {
+  font-size: 1.5rem;
+  background: hwb(261 74% 5%);
+}
+
+.gallery {
+  font-size: 1.5rem;
+  background: #ffdab9;
+  border: 1px solid #dda0dd; /* Light purple border for gallery section */
+}
+
+.rsvp {
+  font-size: 1.5rem;
+  background: #bde0fe;
+}
+
+.map {
+  font-size: 1.5rem;
+  background: #c3f1c3;
+}
+
+/*---------------------------------
+  ANIMATED SECTION ENTRANCE (SLIDE-IN)
+-----------------------------------*/
+
+/* Initial state: section title appears off-screen (above and to right) and transparent */
+.slide-in {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-10%, -100%);
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 1s ease-out;
+}
+
+/* When section is in view, animate to center and fade in */
+.slide-in.visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+/* When section exits, animate to the left and fade out */
+.slide-in.exiting {
+  transform: translate(-150%, 0);
+  opacity: 0;
+}
+
+/*---------------------------------
+  FLOATING MENU BUTTON
+-----------------------------------*/
+
+/* Container for floating menu (fixed at bottom-right of viewport) */
+.floating-menu {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Floating circular button (purple, white text, subtle shadow) */
+#menuButton {
+  background-color: rgba(130, 110, 139, 0.747);
+  color: rgb(247, 243, 243);
+  border: none;
+  border-radius: 150px;
+  padding: 20px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect (brighter purple) */
+#menuButton:hover {
+  background-color: rgba(211, 118, 211, 0.8);
+}
+
+/*---------------------------------
+  FLOATING MENU OPTIONS DROPDOWN
+-----------------------------------*/
+
+/* Menu box appears above button, rounded, purple, with vertical links */
+.menu-options {
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  background-color: rgba(159, 122, 219, 0.678);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Style for each option link in menu */
+.menu-options a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+/* Highlight on hover */
+.menu-options a:hover {
+  background-color: rgba(153, 120, 168, 0.842);
+}
+
+/* Hide menu options by default */
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/*---------------------------------
+  SLIDESHOW BACKGROUND (WELCOME)
+-----------------------------------*/
+
+/* Slideshow container (behind main heading, fills section) */
+.slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Each image in slideshow overlays each other, with fade transition */
+.slideshow .slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+/* Overlay gradient for text readability (top to bottom) */
+.slideshow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Just under the text but above images */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0));
+  pointer-events: none; /* Allow clicks to pass through */
+}
+
+/* Only the active image is visible (opacity: 1) */
+.slideshow .slide.active {
+  opacity: 1;
+}
+/*rsvpmenuButton Settings*/
+.rsvpButton {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+#rsvpmenuButton:hover {
+  background-color: rgba(214, 190, 214, 0.8);
+}
+#rsvpmenuButton {
+  background-color: rgba(130, 110, 139, 0.747);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 50px;
+  padding: 20px 80px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+/*---------------------------------
+  RESPONSIVE STYLES
+-----------------------------------*/
+
+@media (max-width: 600px) {
+  /* Shrink title for extra-small devices */
+  #welcome h1 {
+    font-size: 5rem;
+    top: 70%;
+  }
+}
