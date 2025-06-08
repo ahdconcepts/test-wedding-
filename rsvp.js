@@ -1,21 +1,21 @@
 const scriptURL = "https://script.google.com/macros/s/AKfycbztNef5f7wTMSf0qDxycVWJBOo9PIHqBcfztAwET9QaAaF3vHAqd2yYeAKpB1Ore1dIRw/exec";
 
-// Restore values if user refreshed after name search!
+// Always try to restore from sessionStorage
 let guestName = sessionStorage.getItem('guestName') || "";
-let rowIndex = sessionStorage.getItem('rowIndex') || null;
+let rowIndex = sessionStorage.getItem('rowIndex');
+rowIndex = rowIndex !== null && rowIndex !== "" && rowIndex !== "null" ? parseInt(rowIndex, 10) : null;
 
 function showStage(id) {
   document.querySelectorAll('.stage').forEach(el => el.classList.remove('visible'));
   document.getElementById(id).classList.add('visible');
 }
 
-// 1. CHECK NAME
 function checkName() {
   const name = document.getElementById('nameInput').value.trim();
   const loading = document.getElementById("loading");
   const error = document.getElementById("error");
 
-  // Reset variables
+  // Reset all values and storage
   guestName = "";
   rowIndex = null;
   sessionStorage.removeItem('guestName');
@@ -37,7 +37,7 @@ function checkName() {
 
       if (data.status === "found") {
         guestName = data.matchedName || name;
-        rowIndex = data.rowIndex;
+        rowIndex = data.rowIndex !== undefined && data.rowIndex !== null ? parseInt(data.rowIndex, 10) : null;
 
         // Save to sessionStorage
         sessionStorage.setItem('guestName', guestName);
@@ -64,11 +64,11 @@ function checkName() {
     });
 }
 
-// 2. CHANGE RESPONSE
 function showRSVPForm() {
   // Always require a valid name search first!
   guestName = sessionStorage.getItem('guestName') || "";
-  rowIndex = sessionStorage.getItem('rowIndex') || null;
+  let storedRowIndex = sessionStorage.getItem('rowIndex');
+  rowIndex = storedRowIndex !== null && storedRowIndex !== "" && storedRowIndex !== "null" ? parseInt(storedRowIndex, 10) : null;
 
   if (!guestName || !rowIndex) {
     alert("Session expired. Please search your name again to RSVP.");
@@ -78,16 +78,17 @@ function showRSVPForm() {
   showStage("stage3");
 }
 
-// 3. SUBMIT RSVP
 function submitResponse(response) {
-  // Use values from sessionStorage in case of reload
+  // Always re-fetch from sessionStorage in case of reload
   guestName = sessionStorage.getItem('guestName') || "";
-  rowIndex = sessionStorage.getItem('rowIndex') || null;
-  console.log("Submit clicked. guestName:", guestName, "rowIndex:", rowIndex, "response:", response);
+  let storedRowIndex = sessionStorage.getItem('rowIndex');
+  rowIndex = storedRowIndex !== null && storedRowIndex !== "" && storedRowIndex !== "null" ? parseInt(storedRowIndex, 10) : null;
 
-  // Prevent submit if no valid session
-  if (!guestName || !rowIndex) {
-    alert("Session expired. Please start again by searching your name.");
+  console.log("DEBUG: submitResponse called.");
+  console.log("guestName:", guestName, "rowIndex:", rowIndex, "typeof rowIndex:", typeof rowIndex);
+
+  if (!guestName || !rowIndex || isNaN(rowIndex) || rowIndex < 2) {
+    alert("Something went wrong. Please start again.");
     showStage("stage1");
     return;
   }
