@@ -1,6 +1,6 @@
 // ----- FILL THESE IN FROM YOUR AIRTABLE BASE -----
-const AIRTABLE_BASE_ID = 'appXXXXXXXXXXXXXX';      // Your Airtable Base ID
-const AIRTABLE_TABLE_ID = 'tblXXXXXXXXXXXXXX';     // Your Table ID (use the "ID", not name)
+const AIRTABLE_BASE_ID = 'appuh4AKL6ZzeOAGq;      // Your Airtable Base ID
+const AIRTABLE_TABLE_ID = 'tbl0MtNUfV5p4XwA8';     // Your Table ID (use the "ID", not name)
 const AIRTABLE_TOKEN   = 'patXXXXXXXXXXXXXX';      // Your Personal Access Token
 
 const AIRTABLE_API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
