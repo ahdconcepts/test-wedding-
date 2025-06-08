@@ -44,7 +44,7 @@ function selectGuestMatch(record) {
   clearMatchList();
 
   const guestName = record.fields.Name;
-  const response = record.fields.Response || "";
+  const response = record.fields.Responses || "";
   const recordId = record.id;
 
   sessionStorage.setItem('guestName', guestName);
@@ -141,13 +141,13 @@ async function submitResponse(response) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        fields: { Response: response }
+        fields: { Responses: response }
       })
     });
     const data = await res.json();
     // console.log('Airtable API (submitResponse) response:', data);
 
-    if (data.id && data.fields.Response === response) {
+    if (data.id && data.fields.Responses === response) {
       sessionStorage.removeItem('guestName');
       sessionStorage.removeItem('recordId');
       showStage("stage4");
