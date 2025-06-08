@@ -1,6 +1,6 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbxZLrxwQ-K3Corz4UeJl2QilivjsObE3g2X2YWDUo1TO30-ouJgLC4L1vfgy4cW9I3e8w/exec";
+// !! IMPORTANT: Paste your new deployment URL here (must end with /exec) !!
+const scriptURL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhFtXIho9KCm9K7pHGG_STXvmOVEnRer0MkRZ2GkmTlhQaMkEkK8UYCgJvTI-cZ5HVyCDFF9z8k3Ppp216pHEkYaid2eF5EaAjh21qOeUNe2sxmWpsWr_KG4juCUGIDCKnzWoWAsZUANWdIZJQN2lJqQ-GZR-g7R85Z8G4bEvnBsKH6kbnrLrIpJ2GOl59SLOAnltaHbxa98vc5YJytun1dGJ5ZaszoMh767WGZoSRJyQbaVCt-KoI4YXsX3yEq15W6mIg8xMMHL0Bh7H3c9MT7D0wkuGX2Sbcgosax&lib=MUMpt2puDo7aEhWfxupIecpVYCfGSFPr5";
 
-// Always try to restore from sessionStorage
 let guestName = sessionStorage.getItem('guestName') || "";
 let rowIndex = sessionStorage.getItem('rowIndex');
 rowIndex = rowIndex !== null && rowIndex !== "" && rowIndex !== "null" ? parseInt(rowIndex, 10) : null;
@@ -15,7 +15,7 @@ function checkName() {
   const loading = document.getElementById("loading");
   const error = document.getElementById("error");
 
-  // Reset all values and storage
+  // Reset variables and sessionStorage
   guestName = "";
   rowIndex = null;
   sessionStorage.removeItem('guestName');
@@ -65,7 +65,6 @@ function checkName() {
 }
 
 function showRSVPForm() {
-  // Always require a valid name search first!
   guestName = sessionStorage.getItem('guestName') || "";
   let storedRowIndex = sessionStorage.getItem('rowIndex');
   rowIndex = storedRowIndex !== null && storedRowIndex !== "" && storedRowIndex !== "null" ? parseInt(storedRowIndex, 10) : null;
@@ -84,6 +83,7 @@ function submitResponse(response) {
   let storedRowIndex = sessionStorage.getItem('rowIndex');
   rowIndex = storedRowIndex !== null && storedRowIndex !== "" && storedRowIndex !== "null" ? parseInt(storedRowIndex, 10) : null;
 
+  // Debug info for troubleshooting!
   console.log("DEBUG: submitResponse called.");
   console.log("guestName:", guestName, "rowIndex:", rowIndex, "typeof rowIndex:", typeof rowIndex);
 
@@ -93,25 +93,33 @@ function submitResponse(response) {
     return;
   }
 
+  // --- THE KEY PART: Ensures correct POST ---
   fetch(scriptURL, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name: guestName,
       response: response,
       rowIndex: rowIndex
-    }),
-    headers: { "Content-Type": "application/json" }
+    })
   })
-    .then(res => res.json())
-    .then(data => {
-      console.log('API (submitResponse) response:', data);
-      if (data.status === "updated") {
-        // Clear after success
-        sessionStorage.removeItem('guestName');
-        sessionStorage.removeItem('rowIndex');
-        showStage("stage4");
-      } else {
-        alert("Something went wrong submitting your response. Please try again.");
+    .then(async res => {
+      // For further debug, log the raw response
+      let text = await res.text();
+      try {
+        let data = JSON.parse(text);
+        console.log('API (submitResponse) response:', data);
+
+        if (data.status === "updated") {
+          sessionStorage.removeItem('guestName');
+          sessionStorage.removeItem('rowIndex');
+          showStage("stage4");
+        } else {
+          alert("Something went wrong submitting your response. Please try again.");
+        }
+      } catch(e) {
+        console.error("Non-JSON response from server:", text);
+        alert("Unexpected server response. Please try again later.");
       }
     })
     .catch((err) => {
@@ -120,7 +128,6 @@ function submitResponse(response) {
     });
 }
 
-// Allow closing the modal
 document.getElementById('closeRSVP').onclick = function() {
   window.location.href = 'index.html';
 };
