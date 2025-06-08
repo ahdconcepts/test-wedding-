@@ -118,3 +118,24 @@ button:hover {
 .close-btn:hover {
   color: #af1eaf;
 }
+
+.match-list {
+  margin: 10px 0;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.match-list-item {
+  display: block;
+  padding: 10px 20px;
+  background: #fafafa;
+  border: 1px solid #8c52ff;
+  border-radius: 6px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.match-list-item:hover {
+  background: #ece0ff;
+}
