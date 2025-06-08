@@ -167,3 +167,4 @@ function startCountdownAndReload() {
     }
   }, 1000);
 }
+
