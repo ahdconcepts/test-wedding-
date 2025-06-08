@@ -151,6 +151,9 @@ async function submitResponse(response) {
       sessionStorage.removeItem('guestName');
       sessionStorage.removeItem('recordId');
       showStage("stage4");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2500); // 2.5 seconds before redirect
     } else {
       alert("Something went wrong submitting your response. Please try again.");
     }
