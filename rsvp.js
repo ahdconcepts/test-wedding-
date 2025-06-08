@@ -1,5 +1,5 @@
 // !! IMPORTANT: Paste your new deployment URL here (must end with /exec) !!
-const scriptURL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhFtXIho9KCm9K7pHGG_STXvmOVEnRer0MkRZ2GkmTlhQaMkEkK8UYCgJvTI-cZ5HVyCDFF9z8k3Ppp216pHEkYaid2eF5EaAjh21qOeUNe2sxmWpsWr_KG4juCUGIDCKnzWoWAsZUANWdIZJQN2lJqQ-GZR-g7R85Z8G4bEvnBsKH6kbnrLrIpJ2GOl59SLOAnltaHbxa98vc5YJytun1dGJ5ZaszoMh767WGZoSRJyQbaVCt-KoI4YXsX3yEq15W6mIg8xMMHL0Bh7H3c9MT7D0wkuGX2Sbcgosax&lib=MUMpt2puDo7aEhWfxupIecpVYCfGSFPr5";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxZLrxwQ-K3Corz4UeJl2QilivjsObE3g2X2YWDUo1TO30-ouJgLC4L1vfgy4cW9I3e8w/exec";
 
 let guestName = sessionStorage.getItem('guestName') || "";
 let rowIndex = sessionStorage.getItem('rowIndex');
