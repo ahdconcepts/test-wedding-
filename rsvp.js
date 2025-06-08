@@ -1,13 +1,17 @@
-// !! IMPORTANT: Paste your new deployment URL here (must end with /exec) !!
 const scriptURL = "https://script.google.com/macros/s/AKfycbxZLrxwQ-K3Corz4UeJl2QilivjsObE3g2X2YWDUo1TO30-ouJgLC4L1vfgy4cW9I3e8w/exec";
-
-let guestName = sessionStorage.getItem('guestName') || "";
-let rowIndex = sessionStorage.getItem('rowIndex');
-rowIndex = rowIndex !== null && rowIndex !== "" && rowIndex !== "null" ? parseInt(rowIndex, 10) : null;
 
 function showStage(id) {
   document.querySelectorAll('.stage').forEach(el => el.classList.remove('visible'));
   document.getElementById(id).classList.add('visible');
+}
+
+// Get current values directly from sessionStorage at the START of every action!
+function getGuestName() {
+  return sessionStorage.getItem('guestName') || "";
+}
+function getRowIndex() {
+  const idx = sessionStorage.getItem('rowIndex');
+  return (idx !== null && idx !== "" && idx !== "null" && !isNaN(idx)) ? parseInt(idx, 10) : null;
 }
 
 function checkName() {
@@ -15,9 +19,7 @@ function checkName() {
   const loading = document.getElementById("loading");
   const error = document.getElementById("error");
 
-  // Reset variables and sessionStorage
-  guestName = "";
-  rowIndex = null;
+  // Clear sessionStorage each time
   sessionStorage.removeItem('guestName');
   sessionStorage.removeItem('rowIndex');
   error.textContent = "";
@@ -36,15 +38,12 @@ function checkName() {
       console.log('API (checkName) response:', data);
 
       if (data.status === "found") {
-        guestName = data.matchedName || name;
-        rowIndex = data.rowIndex !== undefined && data.rowIndex !== null ? parseInt(data.rowIndex, 10) : null;
-
         // Save to sessionStorage
-        sessionStorage.setItem('guestName', guestName);
-        sessionStorage.setItem('rowIndex', rowIndex);
+        sessionStorage.setItem('guestName', data.matchedName || name);
+        sessionStorage.setItem('rowIndex', data.rowIndex);
 
-        document.getElementById("greeting").textContent = `Hello, ${guestName}`;
-        document.getElementById("inviteMessage").innerHTML = `Hello <span class="guest-name">${guestName}</span>, you have been invited.`;
+        document.getElementById("greeting").textContent = `Hello, ${data.matchedName || name}`;
+        document.getElementById("inviteMessage").innerHTML = `Hello <span class="guest-name">${data.matchedName || name}</span>, you have been invited.`;
 
         if (data.response) {
           document.getElementById("existingResponse").textContent = `You already responded: "${data.response}".`;
@@ -65,9 +64,8 @@ function checkName() {
 }
 
 function showRSVPForm() {
-  guestName = sessionStorage.getItem('guestName') || "";
-  let storedRowIndex = sessionStorage.getItem('rowIndex');
-  rowIndex = storedRowIndex !== null && storedRowIndex !== "" && storedRowIndex !== "null" ? parseInt(storedRowIndex, 10) : null;
+  const guestName = getGuestName();
+  const rowIndex = getRowIndex();
 
   if (!guestName || !rowIndex) {
     alert("Session expired. Please search your name again to RSVP.");
@@ -78,10 +76,9 @@ function showRSVPForm() {
 }
 
 function submitResponse(response) {
-  // Always re-fetch from sessionStorage in case of reload
-  guestName = sessionStorage.getItem('guestName') || "";
-  let storedRowIndex = sessionStorage.getItem('rowIndex');
-  rowIndex = storedRowIndex !== null && storedRowIndex !== "" && storedRowIndex !== "null" ? parseInt(storedRowIndex, 10) : null;
+  // Always get values directly from sessionStorage
+  const guestName = getGuestName();
+  const rowIndex = getRowIndex();
 
   // Debug info for troubleshooting!
   console.log("DEBUG: submitResponse called.");
@@ -93,7 +90,6 @@ function submitResponse(response) {
     return;
   }
 
-  // --- THE KEY PART: Ensures correct POST ---
   fetch(scriptURL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -104,7 +100,6 @@ function submitResponse(response) {
     })
   })
     .then(async res => {
-      // For further debug, log the raw response
       let text = await res.text();
       try {
         let data = JSON.parse(text);
