@@ -1,7 +1,8 @@
 const scriptURL = "https://script.google.com/macros/s/AKfycbztNef5f7wTMSf0qDxycVWJBOo9PIHqBcfztAwET9QaAaF3vHAqd2yYeAKpB1Ore1dIRw/exec";
 
-let guestName = "";
-let rowIndex = null;
+// Restore values if user refreshed after name search!
+let guestName = sessionStorage.getItem('guestName') || "";
+let rowIndex = sessionStorage.getItem('rowIndex') || null;
 
 function showStage(id) {
   document.querySelectorAll('.stage').forEach(el => el.classList.remove('visible'));
@@ -17,6 +18,8 @@ function checkName() {
   // Reset variables
   guestName = "";
   rowIndex = null;
+  sessionStorage.removeItem('guestName');
+  sessionStorage.removeItem('rowIndex');
   error.textContent = "";
 
   if (!name) {
@@ -35,6 +38,10 @@ function checkName() {
       if (data.status === "found") {
         guestName = data.matchedName || name;
         rowIndex = data.rowIndex;
+
+        // Save to sessionStorage
+        sessionStorage.setItem('guestName', guestName);
+        sessionStorage.setItem('rowIndex', rowIndex);
 
         document.getElementById("greeting").textContent = `Hello, ${guestName}`;
         document.getElementById("inviteMessage").innerHTML = `Hello <span class="guest-name">${guestName}</span>, you have been invited.`;
@@ -60,6 +67,9 @@ function checkName() {
 // 2. CHANGE RESPONSE
 function showRSVPForm() {
   // Always require a valid name search first!
+  guestName = sessionStorage.getItem('guestName') || "";
+  rowIndex = sessionStorage.getItem('rowIndex') || null;
+
   if (!guestName || !rowIndex) {
     alert("Session expired. Please search your name again to RSVP.");
     showStage("stage1");
@@ -70,6 +80,9 @@ function showRSVPForm() {
 
 // 3. SUBMIT RSVP
 function submitResponse(response) {
+  // Use values from sessionStorage in case of reload
+  guestName = sessionStorage.getItem('guestName') || "";
+  rowIndex = sessionStorage.getItem('rowIndex') || null;
   console.log("Submit clicked. guestName:", guestName, "rowIndex:", rowIndex, "response:", response);
 
   // Prevent submit if no valid session
@@ -92,6 +105,9 @@ function submitResponse(response) {
     .then(data => {
       console.log('API (submitResponse) response:', data);
       if (data.status === "updated") {
+        // Clear after success
+        sessionStorage.removeItem('guestName');
+        sessionStorage.removeItem('rowIndex');
         showStage("stage4");
       } else {
         alert("Something went wrong submitting your response. Please try again.");
