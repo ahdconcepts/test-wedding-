@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
   <meta charset="UTF-8">
   <title>RSVP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,12 +12,12 @@
     <h2>RSVP</h2>
 
     <div id="stage1" class="stage visible">
-      <p>To RSVP, please type your full name.</p>
-      <input type="text" id="nameInput" placeholder="FirstName LastName">
+      <p>To RSVP, Type your name.</p>
+      <input type="text" id="nameInput" placeholder="FirstName or LastName">
       <button onclick="checkName()">Next</button>
       <p id="error" class="error"></p>
       <p id="loading" class="loading">
-        <span class="spinner">🔄</span> Searching the guest list, please wait...
+        <span class="spinner">⚙️</span> Connecting to guest list, please wait...
       </p>
     </div>
 
@@ -47,7 +46,7 @@
 </div>
 
 
-    <button id="closeRSVP" aria-label="Close RSVP" class="close-btn">Back to Home</button>
+    <button id="closeRSVP" aria-label="Close RSVP" class="close-btn">↩ Back to Home</button>
 
   </div>
 
