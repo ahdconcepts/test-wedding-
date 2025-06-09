@@ -12,7 +12,7 @@
 /* Set main font and prevent scrollbars by default (can re-enable if needed) */
 body {
   font-family: Arial, sans-serif;
-  overflow: hidden;
+ overflow: hidden;
 }
 
 /*---------------------------------
@@ -22,16 +22,22 @@ body {
 /* Use cursive font for decorative headings */
 h1,  h4, h5, h6 {
   font-family: 'Dancing Script', cursive;
-   font-weight: 200; /* Thin */
+   font-weight: 300; /* Thin */
 }
 /* Use classic sans-serif for h3 for clarity */
-h3 {
-  font-family: Arial, Helvetica, sans-serif;
-}
+
 h2 {
   font-family: 'Alumni Sans SC', sans-serif;
   font-weight: 100; /* Thin */
-  font-size: 3rem;
+  font-size: 3.5rem;
+  
+}
+
+
+h3 {
+  font-family: 'Alumni Sans SC', sans-serif;
+  font-weight: 100; /* Thin */
+  font-size: 2rem;
   
 }
 /*---------------------------------
@@ -108,23 +114,23 @@ h2 {
 /* Each section uses a soft color and increased font for legibility */
 .details {
   font-size: 1.5rem;
-  background: hwb(261 74% 5%);
+  background: #d2b5d6;
+  background: linear-gradient(to top, rgba(80, 49, 81, 0.776), rgba(160, 136, 157, 0.629));
 }
 
 .gallery {
   font-size: 1.5rem;
-  background: #ffdab9;
+  background: #d2b5d6;
   border: 1px solid #dda0dd; /* Light purple border for gallery section */
+  background: linear-gradient(to top, rgba(80, 49, 81, 0.776), rgba(160, 136, 157, 0.629));
 }
 
-.rsvp {
-  font-size: 1.5rem;
-  background: #bde0fe;
-}
+
 
 .map {
   font-size: 1.5rem;
-  background: #c3f1c3;
+  background: #d2b5d6;
+  background: linear-gradient(to top, rgba(80, 49, 81, 0.776), rgba(160, 136, 157, 0.629));
 }
 
 /*---------------------------------
@@ -167,7 +173,7 @@ h2 {
 
 /* Floating circular button (purple, white text, subtle shadow) */
 #menuButton {
-  background-color: rgba(130, 110, 139, 0.747);
+  background-color: rgba(180, 119, 180, 0.829);;
   color: rgb(247, 243, 243);
   border: none;
   border-radius: 150px;
@@ -235,6 +241,7 @@ h2 {
   height: 100%;
   z-index: -1;
   overflow: hidden;
+  opacity: 0.9;
 }
 
 /* Each image in slideshow overlays each other, with fade transition */
@@ -256,7 +263,7 @@ h2 {
   width: 100%;
   height: 100%;
   z-index: 1; /* Just under the text but above images */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, rgba(80, 49, 81, 0.776), rgba(255, 255, 255, 0));
   pointer-events: none; /* Allow clicks to pass through */
 }
 
@@ -275,7 +282,7 @@ h2 {
   background-color: rgba(214, 190, 214, 0.8);
 }
 #rsvpmenuButton {
-  background-color: rgba(130, 110, 139, 0.747);
+  background-color: rgba(180, 119, 180, 0.829);
   color: rgb(255, 255, 255);
   border: none;
   border-radius: 50px;
@@ -290,10 +297,24 @@ h2 {
   RESPONSIVE STYLES
 -----------------------------------*/
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   /* Shrink title for extra-small devices */
   #welcome h1 {
-    font-size: 5rem;
+    font-size: 4rem;
     top: 70%;
+    
   }
+  h2 {
+  font-family: 'Alumni Sans SC', sans-serif;
+  font-weight: 100; /* Thin */
+  font-size: 3rem;
+  
+  
+}
+h3 {
+  font-family: 'Alumni Sans SC', sans-serif;
+  font-weight: 100; /* Thin */
+  font-size: 1.7rem;
+  
+}
 }
