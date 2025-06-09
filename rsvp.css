@@ -44,9 +44,9 @@ input[type="text"] {
 }
 
 button {
-  background-color: #978597; /* lavender */
+  background-color: #ca68ca; /* lavender */
   border: none;
-  color: #000;
+  color: #ffffff;
   padding: 12px 20px;
   margin-top: 10px;
   font-size: 1em;
@@ -69,8 +69,9 @@ button:hover {
 }
 
 .error {
-  color: red;
-  margin-top: 10px;
+  color: rgb(221, 93, 8);
+  margin-top: 15px;
+  font-size: 1em;
 }
 
 /* 🔄 Rotating Spinner Style */
@@ -81,9 +82,10 @@ button:hover {
 
 .loading {
   display: none;
-  font-style: italic;
-  color: #444;
-  margin-top: 10px;
+  
+  color: #059018;
+  font-size: 0.9em;
+  margin-top: 15px;
 }
 
 .loading.visible {
@@ -95,6 +97,7 @@ button:hover {
   animation: spin 1s linear infinite;
   margin-right: 8px;
   transform-origin: center;
+  
 }
 .guest-name {
   color: #8b00c9; /* violet */
@@ -102,21 +105,20 @@ button:hover {
 }
 
 .close-btn {
-  
+  background-color: #c758c7; /* lavender */
   font-size: 0.5rem; 
   position: absolute;
   top: 30px;
   right: 30px;
   z-index: 999;
-  background: transparent;
   border: none;
-  font-size: 2rem;
-  color: #6b2e63;
+  font-size: 1rem;
+  color: #ffffff;
   cursor: pointer;
   transition: color 0.2s;
 }
 .close-btn:hover {
-  color: #af1eaf;
+  color: #ce90ce;
 }
 
 .match-list {
@@ -124,18 +126,34 @@ button:hover {
   display: none;
   flex-direction: column;
   gap: 10px;
+  
 }
 
 .match-list-item {
   display: block;
   padding: 10px 20px;
-  background: #fafafa;
-  border: 1px solid #8c52ff;
-  border-radius: 6px;
-  font-size: 1.1em;
+  background: #bf9abb;
+  border: 1px solid #e63cbb;
+  border-radius: 15px;
+  font-size: 1em;
   cursor: pointer;
   transition: background 0.2s;
 }
 .match-list-item:hover {
   background: #ece0ff;
+}
+
+@media (max-width: 500px) {
+  /* Shrink title for extra-small devices */
+  .container {
+  
+  background-color: #ffffff; /* soft pink */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 70%;
+  max-width: 350px;
+  
+}
 }
