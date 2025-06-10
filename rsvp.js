@@ -1,7 +1,7 @@
 // ----- FILL THESE IN FROM YOUR AIRTABLE BASE -----
-const AIRTABLE_BASE_ID = 'appuh4AKL6ZzeOAGq';      // Your Airtable Base ID
-const AIRTABLE_TABLE_ID = 'tbl0MtNUfV5p4XwA8';     // Your Table ID (use the "ID", not name)
-const AIRTABLE_TOKEN   = 'patbin8YubwZjOsYg.612dc9c67b0f43cc491bd1e2e19213e2541550b23c5042832010100d6d1a8cc8';      // Your Personal Access Token
+const AIRTABLE_BASE_ID = 'appuh4AKL6ZzeOAGq';
+const AIRTABLE_TABLE_ID = 'tbl0MtNUfV5p4XwA8';
+const AIRTABLE_TOKEN = 'patbin8YubwZjOsYg.612dc9c67b0f43cc491bd1e2e19213e2541550b23c5042832010100d6d1a8cc8';
 
 const AIRTABLE_API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
 // -------------------------------------------------
@@ -18,12 +18,11 @@ function getRecordId() {
   return sessionStorage.getItem('recordId') || "";
 }
 
-// Show matches in a clickable list
 function showMatchList(matches) {
   const matchList = document.getElementById('matchList');
-  matchList.innerHTML = ""; // clear old
+  matchList.innerHTML = "";
 
-  matches.forEach((record, idx) => {
+  matches.forEach(record => {
     const name = record.fields.Name;
     const btn = document.createElement('button');
     btn.textContent = name;
@@ -62,50 +61,75 @@ function selectGuestMatch(record) {
   }
 }
 
-async function checkName() {
-  const name = document.getElementById('nameInput').value.trim();
-  const loading = document.getElementById("loading");
-  const error = document.getElementById("error");
+// Global storage for Airtable guest records
+let allGuestRecords = [];
 
-  // Clear sessionStorage each time
+async function loadGuestData() {
+  const loading = document.getElementById("loading");
+  loading.classList.add("visible");
+
+  try {
+    let url = `${AIRTABLE_API_URL}?pageSize=100`;
+    let allRecords = [];
+    let offset;
+
+    do {
+      const response = await fetch(offset ? `${url}&offset=${offset}` : url, {
+        headers: {
+          'Authorization': `Bearer ${AIRTABLE_TOKEN}`
+        }
+      });
+
+      const data = await response.json();
+      allRecords = allRecords.concat(data.records);
+      offset = data.offset;
+    } while (offset);
+
+    allGuestRecords = allRecords;
+  } catch (err) {
+    console.error("Error loading Airtable data:", err);
+  } finally {
+    loading.classList.remove("visible");
+  }
+}
+
+async function checkName() {
+  const name = document.getElementById('nameInput').value.trim().toLowerCase();
+  const error = document.getElementById("error");
+  const loading = document.getElementById("loading");
+
+  error.textContent = "";
+  clearMatchList();
   sessionStorage.removeItem('guestName');
   sessionStorage.removeItem('recordId');
-  clearMatchList();
-  error.textContent = "";
 
   if (!name) {
     error.textContent = "Please enter your name.";
     return;
   }
 
-  loading.classList.add("visible");
+  // Load Airtable data if not already fetched
+  if (allGuestRecords.length === 0) {
+    await loadGuestData();
+  }
 
-  // Airtable formula for case-insensitive, partial match
-  const filter = encodeURIComponent(`FIND(LOWER("${name}"), LOWER({Name}))`);
-  const url = `${AIRTABLE_API_URL}?filterByFormula=${filter}&maxRecords=10`;
+  // Use Fuse.js for fuzzy + partial match
+  const fuse = new Fuse(allGuestRecords, {
+    keys: ['fields.Name'],
+    threshold: 0.4,           // Lower is stricter; 0.4 is a good fuzzy setting
+    ignoreLocation: true,
+    minMatchCharLength: 2
+  });
 
-  try {
-    const res = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_TOKEN}`
-      }
-    });
-    const data = await res.json();
-    loading.classList.remove("visible");
-    // console.log('Airtable API (checkName) response:', data);
+  const results = fuse.search(name);
 
-    if (data.records && data.records.length > 1) {
-      error.textContent = "Multiple matches found. Please select your name:";
-      showMatchList(data.records);
-    } else if (data.records && data.records.length === 1) {
-      selectGuestMatch(data.records[0]);
-    } else {
-      error.textContent = "Sorry! The name does not exist on the guest list.";
-    }
-  } catch (err) {
-    loading.classList.remove("visible");
-    error.textContent = "Error checking name. Please try again.";
-    console.error("Fetch error in checkName:", err);
+  if (results.length === 1) {
+    selectGuestMatch(results[0].item);
+  } else if (results.length > 1) {
+    error.textContent = "Multiple matches found. Please select your name:";
+    showMatchList(results.map(r => r.item));
+  } else {
+    error.textContent = "Sorry! The name does not exist on the guest list.";
   }
 }
 
@@ -131,7 +155,6 @@ async function submitResponse(response) {
     return;
   }
 
-  // Update RSVP in Airtable
   try {
     const url = `${AIRTABLE_API_URL}/${recordId}`;
     const res = await fetch(url, {
@@ -145,7 +168,6 @@ async function submitResponse(response) {
       })
     });
     const data = await res.json();
-    // console.log('Airtable API (submitResponse) response:', data);
 
     if (data.id && data.fields.Responses === response) {
       sessionStorage.removeItem('guestName');
@@ -153,7 +175,7 @@ async function submitResponse(response) {
       showStage("stage4");
       setTimeout(() => {
         window.location.href = "index.html";
-      }, 2500); // 2.5 seconds before redirect
+      }, 2500);
     } else {
       alert("Something went wrong submitting your response. Please try again.");
     }
@@ -163,6 +185,6 @@ async function submitResponse(response) {
   }
 }
 
-document.getElementById('closeRSVP').onclick = function() {
+document.getElementById('closeRSVP').onclick = function () {
   window.location.href = 'index.html';
 };
