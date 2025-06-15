@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>alvinandkimwedding</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<!-- SPARKLING OVERLAY -->
+<img src="stars-galaxy.gif" alt="sparkles" class="sparkle-overlay" />
+<img src="stars-galaxy.gif" class="sparkle-overlay stronger" />
+
+<div id="hero-title">
+  <img src="logo.png" alt="Logo" class="hero-logo" />
+  <h1>Alvin and Kim</h1>
+   <h1>Wedding</h1>
+  <!-- Optional: add a subtitle or logo here later -->
+</div>
+
+
+  <!-- 3-D Carousel -->
+  <div id="carousel-wrap">
+    <div id="carousel">
+      <div class="item" data-target="panel-1">
+        <div class="card">Test 1</div><div class="label">Test 1</div>
+      </div>
+      <div class="item" data-target="panel-2">
+        <div class="card">Test 2</div><div class="label">Test 2</div>
+      </div>
+      <div class="item" data-target="panel-3">
+        <div class="card">Test 3</div><div class="label">Test 3</div>
+      </div>
+      <div class="item" data-target="panel-4">
+        <div class="card">Test 4</div><div class="label">label 4</div>
+      </div>
+      <div class="item" data-target="panel-5">
+        <div class="card">Test 5</div><div class="label">Test 5</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal (text & pics) -->
+  <div id="modal">
+    <div id="modal-body">
+      <button id="close">✕</button>
+    </div>
+  </div>
+
+  <!-- Templates for modal content -->
+  <template id="panel-1">
+    <h1>Test 1</h1>
+    <img src="image1.jpg" alt="Image 1" class="modal-image">
+    <p>Lorem ipsum for Test 1 …</p>
+  </template>
+
+  <template id="panel-2">
+    <h1>Test 2</h1>
+    <img src="image2.jpg" alt="Image 2" class="modal-image">
+    <p>Lorem ipsum for Test 2 …</p>
+  </template>
+
+  <template id="panel-3">
+    <h1>Test 3</h1>
+    <img src="image3.jpg" alt="Image 3" class="modal-image">
+    <p>Lorem ipsum for Test 3 …</p>
+  </template>
+
+  <template id="panel-4">
+    <h1>Test 4</h1>
+    <img src="image4.jpg" alt="Image 4" class="modal-image">
+    <img src="image3.jpg" alt="Image 4" class="modal-image">
+    <img src="image2.jpg" alt="Image 4" class="modal-image">
+    <img src="image1.jpg" alt="Image 4" class="modal-image">
+    <p>Lorem ipsum for Test 4 …</p>
+  </template>
+
+  <template id="panel-5">
+    <h1>Test 5</h1>
+    <img src="image5.jpg" alt="Image 5" class="modal-image">
+    <p>Lorem ipsum for Test 5 …</p>
+  </template>
+
+  <!-- Full-screen image viewer -->
+  <div id="viewer">
+    <button id="viewer-prev"  aria-label="Previous">‹</button>
+    <img id="viewer-img" src="" alt="Full view">
+    <button id="viewer-next"  aria-label="Next">›</button>
+    <button id="viewer-close" aria-label="Close">✕</button>
+  </div>
+
+<!-- RSVP BUTTON -->
+<div class="rsvpButton">
+      <button id="rsvpmenuButton">RSVP Now</button>
+    </div>
+<!-- FAQs BUTTON -->
+    <div class="faqButton">
+  <button id="faqButton" title="FAQs">FAQs</button>
+</div>
+<script>
+  document.getElementById('rsvpmenuButton').onclick = function() {
+    window.location.href = 'rsvp.html';
+  };
+</script>
+
+<script>
+  document.getElementById('faqButton').onclick = function () {
+  window.location.href = 'faqs.html';
+};
+</script>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+/* ─────────────────────────────
+   Base / Layout
+───────────────────────────── */
+
+/* Universal reset & border-box sizing */
+* {
+  box-sizing: border-box;      /* Include padding + border in element’s width/height */
+  margin: 0;                   /* Remove default margins */
+  padding: 0;                  /* Remove default padding  */
+}
+
+html,
+body {
+  height: 100%;                /* Make <html> and <body> fill the viewport */
+  overflow: hidden;            /* Prevent page scroll so carousel feels app-like */
+  font-family: sans-serif;     /* Global font stack */
+  background: url('background_03.png') no-repeat center center fixed;
+  background-size: cover;        /* ✅ Makes it responsive */
+  color: #fff;                 /* Default text colour (white) */
+  display: flex;               /* Enable flexbox centring for the wrapper */
+  align-items: center;         /* Vertically centre wrapper */
+  justify-content: center;     /* Horizontally centre wrapper */
+}
+
+/* ─────────────────────────────
+   Carousel wrapper
+───────────────────────────── */
+
+#carousel-wrap {
+  perspective: 1200px;         /* Give child 3-D depth for rotations */
+  width: 100vw;                /* Full viewport width  */
+  height: 100vh;               /* Full viewport height */
+  overflow: hidden;            /* Hide items that pop outside field of view */
+  position: relative;          /* Establish containing block for absolute items */
+}
+
+#carousel {
+  position: absolute;          /* Free-position in wrapper */
+  top: 35%;                    /* Nudge down so items sit above centre line */
+  left: 50%;                   /* Horizontally centre */
+   transform: 
+    translate(-50%, -50%)
+    rotateX(10deg)  /* 🔄 tilt forward/backward */
+    rotateY(0deg);  /* 🔁 carousel spin (JS usually updates this) */
+  transform-style: preserve-3d;/* Keep children in 3-D context */
+}
+
+/* ─────────────────────────────
+   Carousel items
+───────────────────────────── */
+
+.item {
+  position: absolute;          /* Each item is placed in 3-D ring via JS */
+  width: 150px;                /* Card width  */
+  height: 250px;               /* Card height + label area */
+  display: flex;               /* Stack card + label vertically */
+  flex-direction: column;      /* Column layout */
+  align-items: center;         /* Centre children horizontally */
+  transform-style: preserve-3d;/* Allow card depth when rotating */
+  cursor: pointer;             /* Make items feel clickable */
+}
+
+/* Card (front face) */
+.card {
+  width: 150px;                /* Match .item width  */
+  height: 250px;               /* Perfect square */
+  background: #826297b0;         /* Green fill */
+  border-radius: 14px;         /* Rounded corners */
+  box-shadow: 0 14px 34px rgba(0,0,0,.5); /* Deep drop shadow */
+  line-height: 150px;          /* Centre text vertically */
+  text-align: center;          /* Centre text horizontally */
+  font: bold 22px sans-serif;  /* Card label font */
+  transition:                  /* Smooth transforms & fades */
+    transform .5s ease,
+    opacity   .3s ease;
+  position: relative;          /* Needed for ::after reflection */
+  z-index: 1;                  /* Sit above its reflection */
+}
+
+/* Card reflection (fades downward) */
+.card::after {
+  content: '';                 /* Empty pseudo-element acts as reflection */
+  position: absolute;          /* Position inside .card */
+  bottom: -110px;              /* Position below card */
+  left: 0;
+  width: 100%;                 /* Match card width */
+  height: 105px;               /* Height of reflection */
+  background: linear-gradient( /* Soft fade out */
+              to top,
+              rgba(144, 102, 163, 0.5),
+              transparent);
+  transform: scaleY(-1);       /* Mirror vertically */
+  border-radius: 14px;         /* Same rounding as card */
+  opacity: .4;                 /* Subtle reflection */
+  pointer-events: none;        /* Clicks pass through */
+}
+
+/* Enlarged (modal zoom) state */
+.card.zoom {
+  position: fixed;             /* Pull out of carousel and pin to viewport */
+  top: 50%; left: 50%;         /* Centre of screen */
+  transform: translate(-50%, -50%) scale(4); /* Grow to 4× size */
+  z-index: 1001;               /* Above modal backdrop */
+}
+
+/* Fade-out state (used when another card is zoomed) */
+.card.fadeout {
+  opacity: 0;                  /* Hide card smoothly */
+}
+
+/* Text label beneath each card */
+.label {
+  margin-top: 8px;             /* Gap below card */
+  font-size: 16px;             /* Label size */
+  pointer-events: none;        /* Clicks pass through so only card responds */
+  text-shadow: 1px 1px 3px rgba(0,0,0,.6); /* Improve legibility on green */
+
+  transform: none !important;       /* 💡 Ensure no accidental 3D transforms */
+  backface-visibility: hidden;      /* 🧼 Prevent flickering on 3D surfaces */
+  z-index: 5;                        /* Sit above the card base */
+}
+
+/* ─────────────────────────────
+   Modal (card details)
+───────────────────────────── */
+
+#modal {
+  position: fixed;             /* Cover entire viewport */
+  inset: 0;                    /* Top/right/bottom/left = 0 */
+  background: rgba(0,0,0,.8);  /* Dark translucent backdrop */
+  display: none;               /* Hidden by default */
+  align-items: center;         /* Flex-centre modal body */
+  justify-content: center;
+  z-index: 1000;               /* Sits just under .card.zoom */
+}
+
+#modal.show {
+  display: flex;               /* Toggle on via JS */
+}
+
+#modal-body {
+  background: #ffffff73;       /* Frosted-glass white */
+  color: #000;                 /* Body text colour */
+  border-radius: 14px;         /* Rounded corners */
+  padding: 30px;               /* Interior spacing */
+  width: min(90vw, 600px);     /* Responsive max width */
+  max-height: 90vh;            /* Never exceed viewport */
+  overflow-y: auto;            /* Scroll if content too tall */
+  position: relative;          /* Anchor close button */
+}
+
+#modal-body img {
+  width: 100%;                 /* Fill modal body width */
+  height: auto;                /* Keep image ratio */
+  border-radius: 12px;         /* Soften edges */
+  margin: 20px 0;              /* Top/bottom spacing */
+  display: block;              /* Remove inline gap */
+}
+
+/* Close (×) button */
+#close {
+  position: absolute;          /* Sit in corner of modal body */
+  top: 12px;
+  right: 16px;
+  font-size: 28px;             /* Big enough tap target */
+  border: none;                /* Icon only */
+  background: none;
+  color: #444;                 /* Dark grey icon */
+  cursor: pointer;             /* Pointer cursor on hover */
+}
+
+/* ─────────────────────────────
+   Full-screen viewer (lightbox)
+───────────────────────────── */
+
+#viewer {
+  position: fixed;             /* Cover whole viewport */
+  inset: 0;
+  background: rgba(0,0,0,.95); /* Nearly opaque black */
+  display: none;               /* Hidden until needed */
+  align-items: center;         /* Centre image */
+  justify-content: center;
+  z-index: 3000;               /* Highest layer */
+}
+
+#viewer.show {
+  display: flex;               /* Reveal via JS */
+}
+
+/* Enlarged image */
+#viewer-img {
+  max-width: 95vw;             /* Leave small margin around sides */
+  max-height: 95vh;            /* Leave margin top/bottom */
+  border-radius: 8px;          /* Soft edges */
+  box-shadow: 0 6px 18px rgba(0,0,0,.6); /* Subtle halo */
+}
+
+/* Control buttons (close / prev / next) */
+#viewer-close,
+#viewer-prev,
+#viewer-next {
+  position: absolute;          /* Float over backdrop */
+  background: none;            /* Bare icon (handled in HTML or via font) */
+  border: none;
+  color: #fff;                 /* White icons */
+  font-size: 38px;             /* Large touch target */
+  line-height: 1;
+  cursor: pointer;             /* Pointer on hover */
+  user-select: none;           /* Prevent accidental text selection */
+}
+
+/* X (close) */
+#viewer-close {
+  top: 20px;
+  right: 30px;
+}
+
+/* Left arrow */
+#viewer-prev {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%); /* Vertically centre on side */
+}
+
+/* Right arrow */
+#viewer-next {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
+
+
+
+/* ─────────────────────────────
+   Hero Title (Responsive)
+───────────────────────────── */
+#hero-title {
+  position: absolute;
+  top: 5%;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  user-select: none;
+  pointer-events: none;
+  padding: 0 10px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4); /* ✨ drop shadow */
+}
+
+#hero-title h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3.5rem, 5.5vw, 6.5rem); /* responsive text scaling */
+  color: rgba(255, 255, 255, 1);
+  font-weight:550;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.hero-logo {
+  width: clamp(60px, 11vw, 60px);
+  height: auto;
+  margin-bottom: 12px;
+  animation: flicker-glow 2s infinite alternate;
+  filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.6)) 
+          drop-shadow(0 0 12px rgba(255, 105, 180, 0.5)) 
+          drop-shadow(0 0 20px rgba(255, 105, 180, 0.4));
+}
+@keyframes flicker-glow {
+  0% {
+    filter: drop-shadow(0 0 4px rgba(255, 105, 180, 0.5)) 
+            drop-shadow(0 0 10px rgba(255, 105, 180, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 0 10px rgba(255, 105, 180, 1)) 
+            drop-shadow(0 0 20px rgba(255, 105, 180, 0.9));
+  }
+}
+/* ─────────────────────────────
+   sparkle overlay
+───────────────────────────── */
+.sparkle-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  z-index: 0;
+  pointer-events: none;
+}
+.sparkle-overlay.stronger {
+  animation-delay: 1s;
+  opacity: 0.3;
+  z-index: 100;
+  animation-delay: 1s; /* Optional: makes the sparkles look layered and alive */
+}
+
+/* ─────────────────────────────
+   RSVP BUTTON SETTINGS
+───────────────────────────── */
+.rsvpButton {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%); /* ✅ Centers horizontally */
+  z-index: 1000;
+}
+#rsvpmenuButton:hover {
+  background-color: rgba(214, 190, 214, 0.8);
+}
+#rsvpmenuButton {
+  background-color: rgb(160, 117, 180);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 20px;
+  padding: 15px clamp(30px, 8vw, 120px);
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+
+/* ─────────────────────────────
+   FAQ's BUTTON SETTINGS
+───────────────────────────── */
+.faqButton {
+  position: fixed;
+  bottom: 20px;
+  right: 15px;
+  z-index: 1000;
+}
+
+#faqButton {
+  background-color: transparent;
+  color: #976597;
+  border: none;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  font-size: 12px;
+  font-weight: 300;
+  cursor: pointer;
+  
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#faqButton:hover {
+  color: #463946;
+  transform: scale(1.1);
+}
